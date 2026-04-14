@@ -3,23 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cued Speech Story Reader</title>
+  <title>Cued Speech Practice</title>
   <style>
     :root {
       --bg: #0f172a;
       --panel: #111827;
-      --panel-2: #1f2937;
+      --panel2: #1f2937;
       --text: #f8fafc;
       --muted: #94a3b8;
       --accent: #22c55e;
-      --accent-2: #16a34a;
-      --danger: #ef4444;
       --border: #334155;
+      --danger: #ef4444;
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -27,46 +24,41 @@
       background: linear-gradient(180deg, #020617 0%, #0f172a 100%);
       color: var(--text);
       min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
       padding: 20px;
     }
 
     .app {
-      width: min(1000px, 100%);
-      background: rgba(17, 24, 39, 0.95);
+      max-width: 1000px;
+      margin: 0 auto;
+      background: rgba(17, 24, 39, 0.96);
       border: 1px solid var(--border);
-      border-radius: 24px;
+      border-radius: 22px;
       overflow: hidden;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 20px 60px rgba(0,0,0,.35);
     }
 
     .topbar {
-      padding: 18px 22px;
-      background: rgba(255, 255, 255, 0.03);
+      padding: 20px 24px;
       border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,.03);
     }
 
-    .title {
-      font-size: 1.6rem;
-      font-weight: 700;
+    .topbar h1 {
+      margin: 0 0 6px 0;
+      font-size: 1.8rem;
+    }
+
+    .topbar p {
       margin: 0;
-    }
-
-    .subtitle {
-      margin: 6px 0 0;
       color: var(--muted);
-      font-size: 0.95rem;
     }
 
-    .controls {
+    .grid {
       display: grid;
       grid-template-columns: 1.3fr 1fr;
       gap: 16px;
       padding: 18px;
       border-bottom: 1px solid var(--border);
-      background: rgba(255, 255, 255, 0.02);
     }
 
     .card {
@@ -78,18 +70,18 @@
 
     label {
       display: block;
-      font-size: 0.95rem;
       margin-bottom: 8px;
       color: var(--muted);
+      font-size: .95rem;
     }
 
     textarea {
       width: 100%;
-      min-height: 180px;
+      min-height: 260px;
       resize: vertical;
-      border-radius: 14px;
       border: 1px solid var(--border);
-      background: var(--panel-2);
+      border-radius: 14px;
+      background: var(--panel2);
       color: var(--text);
       padding: 14px;
       font-size: 1rem;
@@ -107,41 +99,19 @@
       border: 0;
       border-radius: 12px;
       padding: 12px 16px;
-      font-size: 0.98rem;
+      font-size: 1rem;
       font-weight: 700;
       cursor: pointer;
-      color: white;
       background: #334155;
-      transition: transform 0.08s ease, opacity 0.2s ease, background 0.2s ease;
-    }
-
-    button:hover {
-      opacity: 0.95;
-    }
-
-    button:active {
-      transform: scale(0.98);
-    }
-
-    .primary {
-      background: var(--accent);
-      color: #052e16;
-    }
-
-    .primary:hover {
-      background: var(--accent-2);
       color: white;
     }
 
-    .danger {
-      background: var(--danger);
-    }
+    button.primary { background: var(--accent); color: #052e16; }
+    button.danger { background: var(--danger); color: white; }
 
-    .control-row {
-      margin-bottom: 18px;
-    }
+    .control { margin-bottom: 18px; }
 
-    .row-head {
+    .row {
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -149,10 +119,7 @@
       margin-bottom: 8px;
     }
 
-    .value {
-      color: var(--text);
-      font-weight: 700;
-    }
+    .value { font-weight: 700; }
 
     input[type="range"] {
       width: 100%;
@@ -164,46 +131,39 @@
     }
 
     .reader-box {
-      min-height: 280px;
+      min-height: 320px;
+      background: var(--panel);
       border: 1px solid var(--border);
-      border-radius: 24px;
-      background: radial-gradient(circle at top, rgba(34, 197, 94, 0.08), transparent 35%), var(--panel);
+      border-radius: 22px;
+      padding: 28px;
       display: flex;
       flex-direction: column;
-      justify-content: center;
       align-items: center;
+      justify-content: center;
       text-align: center;
-      padding: 28px;
       position: relative;
-      overflow: hidden;
     }
 
-    .line-label {
+    .line-info {
       position: absolute;
       top: 18px;
       left: 20px;
-      font-size: 0.9rem;
       color: var(--muted);
+      font-size: .95rem;
     }
 
     .line {
-      font-size: clamp(1.7rem, 3.2vw, 3rem);
+      font-size: 2.4rem;
       font-weight: 700;
       line-height: 1.3;
       max-width: 90%;
-      word-wrap: break-word;
+      word-break: break-word;
     }
 
-    .hint {
-      margin-top: 18px;
-      color: var(--muted);
-      font-size: 0.95rem;
-    }
-
-    .footer-stats {
+    .stats {
       display: flex;
       flex-wrap: wrap;
-      gap: 12px;
+      gap: 10px;
       margin-top: 18px;
       justify-content: center;
     }
@@ -211,38 +171,34 @@
     .pill {
       padding: 10px 14px;
       border-radius: 999px;
-      background: rgba(255, 255, 255, 0.05);
       border: 1px solid var(--border);
       color: var(--muted);
-      font-size: 0.95rem;
+      background: rgba(255,255,255,.04);
+    }
+
+    .note {
+      color: var(--muted);
+      font-size: .95rem;
+      margin-top: 10px;
     }
 
     @media (max-width: 800px) {
-      .controls {
-        grid-template-columns: 1fr;
-      }
-
-      .reader-box {
-        min-height: 240px;
-        padding: 24px 18px;
-      }
-
-      .line {
-        max-width: 100%;
-      }
+      .grid { grid-template-columns: 1fr; }
+      .line { font-size: 1.9rem; max-width: 100%; }
+      .reader-box { min-height: 260px; padding: 22px 16px; }
     }
   </style>
 </head>
 <body>
   <div class="app">
     <div class="topbar">
-      <h1 class="title">Cued Speech Story Reader</h1>
-      <p class="subtitle">Read one line at a time and keep up as the story moves forward.</p>
+      <h1>Cued Speech Practice</h1>
+      <p>Only one line shows at a time. Read it before the next line appears.</p>
     </div>
 
-    <div class="controls">
+    <div class="grid">
       <div class="card">
-        <label for="storyInput">Story text</label>
+        <label for="storyInput">Story</label>
         <textarea id="storyInput">On the edge of a quiet village, there stood an old house with a blue door.
 Every evening, when the sun slipped behind the hills, the windows of the house glowed with warm golden light.
 A girl named Clara lived there with her grandfather, who told the best stories in the village.
@@ -328,217 +284,47 @@ He marked the weakest rows.
 He would stop watering those and give everything he had to the rest.
 It seemed wise.
 It seemed necessary.
-It felt like giving up.
-For three days he followed the plan.
-He carried less water, but the work was still heavy.
-He watched some trees hold on and others begin to fail.
-The leaves on the neglected rows faded faster than he had expected.
-By the fourth evening, he could not bear the sight of them.
-He set down his buckets and walked beyond the orchard to the far road where traders sometimes passed.
-There he sat on a low stone wall and stared at the dusty fields until sunset dimmed the sky.
-An old woman came walking along the road with a bundle of sticks on her back.
-She moved slowly, but not weakly.
-When she saw Elias, she stopped.
-You look like a man who has lost something, she said.
-Elias answered that perhaps he had only lost hope, which might be worse.
-The old woman lowered her bundle and sat beside him.
-He told her about the drought, the failing trees, and the choice he had made.
-When he finished, she was silent for a while.
-Then she asked him a strange question.
-Which tree was the first one you ever planted?
-Elias pointed toward the edge of the field.
-The tall bent tree near the fence, he said.
-I planted it when I was young and foolish enough to think I understood weather, roots, and time.
-The old woman laughed softly.
-And what did that tree teach you?
-Elias frowned.
-He said it had taught him patience, perhaps, because it had grown more slowly than the rest.
-It had also taught him humility, because more than once he had nearly cut it down, only to see it recover.
-The old woman nodded.
-Then perhaps you have not finished learning from it.
-Before Elias could ask what she meant, the woman stood, lifted her bundle, and continued down the road.
-He watched until she disappeared into the dusky haze.
-Her words stayed with him all night.
-By dawn he had no clear new plan, only a restless feeling that he had overlooked something important.
-Instead of going first to the well, he walked to the old bent tree by the fence.
-Its bark was rough under his hand.
-Its branches were sparse that season, and many leaves had already fallen.
-At first it looked no stronger than the others.
-But then Elias noticed the ground around it.
-The soil beneath that tree was not as dry.
-He knelt and pressed his fingers into the earth.
-It was still firm and cool a few inches below the surface.
-He looked more carefully.
-The fence line dipped there, and the slightest hollow ran along the edge of the field.
-In wetter years he had never paid attention to it.
-Now he saw that when the rare night mist settled, tiny beads of moisture gathered and traced that shallow line through the grass.
-It was not much water, but it was something.
-Elias stood up so quickly he nearly stumbled.
-All morning he studied the land instead of the trees.
-He walked every row, every slope, every low place where dampness might linger unseen.
-He found that the ground was full of small lessons he had ignored because easier seasons had not required them.
-A narrow path where runoff once moved after storms.
-A patch of shade that kept soil from drying too fast.
-A place where stones just below the surface trapped moisture longer than bare earth.
-By afternoon he had a new plan.
-It was harder than hauling buckets, and more uncertain, but it gave him courage.
-He borrowed a shovel from the blacksmith.
-He fetched a mattock from his shed.
-And he began cutting shallow channels through the orchard floor.
-He shaped them carefully, using the natural dips in the land.
-He gathered stones to slow the trickle when water came.
-He covered roots with mulch made from straw, fallen leaves, and old grass.
-It was slow work.
-It was dirty work.
-It was work no one in the village had told him to do.
-Some people passed by and shook their heads.
-A few pitied him.
-One or two thought the heat had finally clouded his judgment.
-But Elias kept at it.
-On the second night after he began, a thin fog drifted over the fields.
-By dawn, the channels held just a little dampness.
-Not enough to see from far away, but enough to darken the soil.
-Elias smiled for the first time in many days.
-He widened the channels.
-He deepened a few.
-He moved stones and straw where they would do the most good.
-Still there was no real rain.
-Still the village waited.
-Still the fields suffered.
-But in Elias's orchard, a few leaves stopped curling.
-A few branches held steady.
-The change was not dramatic.
-No one would have called it a miracle.
-It was smaller than that and, in some ways, harder.
-It was the reward of careful attention.
-It was the fruit of not giving up too soon.
-As the dry season stretched on, others in the village began to notice.
-A woman from the next farm came to ask why the soil near his trees looked darker in the morning.
-A shepherd noticed that the ditch along the path near Elias's gate stayed cool after dawn.
-Even the neighbor who had told him to save only the strongest trees came back and stood silently among the rows.
-At last the neighbor said, I thought you were wasting your strength.
-Perhaps I was wrong.
-Elias answered that perhaps they had both been partly right.
-Strength still had to be used carefully.
-But careful did not always mean narrow.
-Soon a few villagers began trying similar channels in their gardens.
-Then they tried mulching their vegetable beds more thickly.
-Then they worked together to clear an old spring farther up the hill that had long ago filled with brush and stones.
-The spring did not solve everything.
-It did not pour out like a river.
-But once opened again, it fed a trough, and from that trough water could be carried more steadily.
-What one weary man had nearly abandoned became, little by little, a shared labor.
-When rain finally came, it came at night.
-Not thunder first, but wind.
-Not wind first, but scent.
-The air shifted, and every living thing seemed to know it.
-Elias stood in his doorway in the dark and breathed the smell of rain before the first drop even fell.
-Then the sky opened.
-Water drummed on the roof.
-It splashed in the yard.
-It ran along the channels Elias had cut with his own hands.
-By morning, the orchard was soaked.
-The leaves shone.
-The earth drank deeply.
-The trees that had nearly failed stood quiet and alive in the gray dawn.
-Not every tree was saved.
-A few had gone too far.
-A few branches remained dead and bare.
-But many more had survived than anyone expected.
-And the oldest tree by the fence, the first one Elias had ever planted, held fast as if it had been waiting all along to teach him where to look.
-That autumn, the harvest was small compared to generous years.
-No one pretended otherwise.
-Yet when the villagers tasted the apples, they said they were sweeter than usual.
-Perhaps hunger sharpened gratitude.
-Perhaps hardship changed the flavor of good things.
-Perhaps fruit shared after difficulty simply carries a different joy.
-Elias filled baskets and sent them to neighbors who had helped reopen the spring.
-He gave the first basket to the woman from the road, though he never learned exactly where she lived.
-He left it at the crossroads with a note that said, I am still learning.
-When winter came, the village spoke often of the drought.
-But they did not speak only of fear.
-They spoke of the spring on the hill.
-They spoke of the channels in the orchard.
-They spoke of how close they had come to thinking only of saving themselves.
-And they spoke of how the work changed once it was shared.
-Clara listened closely by the fire as her grandfather's voice grew softer.
-Outside, the rain still touched the roof in a steady rhythm.
-So what was the lesson?
-Her grandfather smiled into the firelight.
-There is rarely only one, he said.
-Then he counted them slowly on his fingers.
-First, hard seasons reveal what easy seasons let us ignore.
-Second, wisdom sometimes begins when pride admits it has missed something small.
-Third, hope is not always loud or dramatic.
-Sometimes hope looks like a man with a shovel cutting narrow lines through dry ground.
-And fourth, the work that seems too heavy for one person may become possible when others begin to join.
-Clara was quiet for a long moment.
-Then she asked whether the story was true.
-Her grandfather looked toward the dark window and nodded.
-True enough, he said.
-Was Elias someone you knew?
-Again her grandfather nodded.
-After that, Clara looked more carefully at his hands, at the roughness around the fingers, at the old scars across the knuckles.
-She looked at the orchard beyond the window and then back at him.
-You were Elias, she whispered.
-He did not answer with words.
-He only smiled, and in that smile Clara understood why he had always loved the ordinary stories best.
-They were never really ordinary.
-They were the kind that had roots.
-The fire burned low.
-The rain eased.
-And in the quiet that followed, Clara felt that the whole house had grown deeper somehow, as if the story had added another room to it.
-Years later, when Clara was grown and her grandfather's chair stood empty, she would still remember that night.
-She would remember the sound of rain on the roof and the glow of the fire on the walls.
-She would remember how one question had opened a door into a life she thought she already understood.
-And when hard seasons came to her, as hard seasons come to everyone, she would remember something else.
-She would remember to look at the ground more closely.
-She would remember that unnoticed grace may be gathering in small places.
-She would remember that patient work matters.
-And she would remember that hope, like water, often finds its way through humble channels first.</textarea>
+It felt like giving up.</textarea>
         <div class="buttons">
           <button id="startBtn" class="primary">Start</button>
           <button id="pauseBtn">Pause</button>
           <button id="resetBtn" class="danger">Reset</button>
         </div>
+        <div class="note">Tip: put one sentence on each line for the smoothest practice.</div>
       </div>
 
       <div class="card">
-        <div class="control-row">
-          <div class="row-head">
+        <div class="control">
+          <div class="row">
             <label for="speedSlider">Speed</label>
-            <span id="speedValue" class="value">1500 ms</span>
+            <span class="value" id="speedValue">1500 ms</span>
           </div>
           <input id="speedSlider" type="range" min="400" max="4000" step="100" value="1500" />
         </div>
 
-        <div class="control-row">
-          <div class="row-head">
+        <div class="control">
+          <div class="row">
             <label for="fontSlider">Text size</label>
-            <span id="fontValue" class="value">100%</span>
+            <span class="value" id="fontValue">100%</span>
           </div>
-          <input id="fontSlider" type="range" min="80" max="170" step="5" value="100" />
+          <input id="fontSlider" type="range" min="70" max="180" step="5" value="100" />
         </div>
 
-        <div class="control-row">
-          <div class="row-head">
-            <label for="loopToggle">Loop story</label>
-            <span id="loopValue" class="value">Off</span>
+        <div class="control">
+          <div class="row">
+            <label for="loopBox">Loop story</label>
+            <span class="value" id="loopValue">Off</span>
           </div>
-          <input id="loopToggle" type="range" min="0" max="1" step="1" value="0" />
-        </div>
-
-        <div class="hint">
-          Tip: Put one sentence per line in the story box for the cleanest practice.
+          <input id="loopBox" type="checkbox" />
         </div>
       </div>
     </div>
 
     <div class="reader">
       <div class="reader-box">
-        <div class="line-label" id="lineLabel">Line 1 of 8</div>
+        <div class="line-info" id="lineInfo">Line 1 of 1</div>
         <div class="line" id="displayLine">Press Start to begin.</div>
-        <div class="footer-stats">
+        <div class="stats">
           <div class="pill" id="statusPill">Status: Ready</div>
           <div class="pill" id="nextPill">Next change: --</div>
         </div>
@@ -555,55 +341,46 @@ And she would remember that hope, like water, often finds its way through humble
     const speedValue = document.getElementById('speedValue');
     const fontSlider = document.getElementById('fontSlider');
     const fontValue = document.getElementById('fontValue');
-    const loopToggle = document.getElementById('loopToggle');
+    const loopBox = document.getElementById('loopBox');
     const loopValue = document.getElementById('loopValue');
     const displayLine = document.getElementById('displayLine');
-    const lineLabel = document.getElementById('lineLabel');
+    const lineInfo = document.getElementById('lineInfo');
     const statusPill = document.getElementById('statusPill');
     const nextPill = document.getElementById('nextPill');
 
     let lines = [];
     let currentIndex = 0;
-    let timer = null;
     let running = false;
+    let advanceTimer = null;
     let countdownTimer = null;
-    let secondsRemaining = 0;
+    let countdownValue = 0;
 
-    function getLines() {
+    function parseLines() {
       return storyInput.value
         .split(/\n+/)
-        .map(line => line.trim())
-        .filter(Boolean);
+        .map(function (line) { return line.trim(); })
+        .filter(function (line) { return line.length > 0; });
     }
 
-    function updateSpeedText() {
-      speedValue.textContent = `${speedSlider.value} ms`;
+    function refreshSpeedLabel() {
+      speedValue.textContent = speedSlider.value + ' ms';
     }
 
-    function updateFontText() {
-      fontValue.textContent = `${fontSlider.value}%`;
-      displayLine.style.fontSize = `calc(clamp(1.7rem, 3.2vw, 3rem) * ${fontSlider.value / 100})`;
+    function refreshFontLabel() {
+      fontValue.textContent = fontSlider.value + '%';
+      const base = 2.4;
+      const scale = Number(fontSlider.value) / 100;
+      displayLine.style.fontSize = (base * scale) + 'rem';
     }
 
-    function updateLoopText() {
-      loopValue.textContent = loopToggle.value === '1' ? 'On' : 'Off';
+    function refreshLoopLabel() {
+      loopValue.textContent = loopBox.checked ? 'On' : 'Off';
     }
 
-    function showLine(index) {
-      if (!lines.length) {
-        displayLine.textContent = 'Enter a story first.';
-        lineLabel.textContent = 'No lines loaded';
-        return;
-      }
-
-      displayLine.textContent = lines[index];
-      lineLabel.textContent = `Line ${index + 1} of ${lines.length}`;
-    }
-
-    function clearTimers() {
-      if (timer) {
-        clearTimeout(timer);
-        timer = null;
+    function stopTimers() {
+      if (advanceTimer) {
+        clearTimeout(advanceTimer);
+        advanceTimer = null;
       }
       if (countdownTimer) {
         clearInterval(countdownTimer);
@@ -611,156 +388,141 @@ And she would remember that hope, like water, often finds its way through humble
       }
     }
 
-    function startCountdown() {
-      const intervalMs = Number(speedSlider.value);
-      secondsRemaining = intervalMs / 1000;
-      nextPill.textContent = `Next change: ${secondsRemaining.toFixed(1)}s`;
-
-      if (countdownTimer) {
-        clearInterval(countdownTimer);
+    function updateLine() {
+      if (!lines.length) {
+        displayLine.textContent = 'Enter a story first.';
+        lineInfo.textContent = 'No lines loaded';
+        return;
       }
+      displayLine.textContent = lines[currentIndex];
+      lineInfo.textContent = 'Line ' + (currentIndex + 1) + ' of ' + lines.length;
+    }
 
-      countdownTimer = setInterval(() => {
-        secondsRemaining -= 0.1;
-        if (secondsRemaining <= 0) {
+    function startCountdown(ms) {
+      countdownValue = ms / 1000;
+      nextPill.textContent = 'Next change: ' + countdownValue.toFixed(1) + 's';
+      countdownTimer = setInterval(function () {
+        countdownValue -= 0.1;
+        if (countdownValue <= 0) {
           nextPill.textContent = 'Next change: now';
           clearInterval(countdownTimer);
           countdownTimer = null;
           return;
         }
-        nextPill.textContent = `Next change: ${secondsRemaining.toFixed(1)}s`;
+        nextPill.textContent = 'Next change: ' + countdownValue.toFixed(1) + 's';
       }, 100);
     }
 
     function scheduleNext() {
-      if (!running) {
-        return;
-      }
-
-      startCountdown();
-      timer = setTimeout(() => {
+      if (!running) return;
+      const ms = Number(speedSlider.value);
+      startCountdown(ms);
+      advanceTimer = setTimeout(function () {
         currentIndex += 1;
-
         if (currentIndex >= lines.length) {
-          if (loopToggle.value === '1' && lines.length > 0) {
+          if (loopBox.checked && lines.length > 0) {
             currentIndex = 0;
           } else {
             running = false;
-            clearTimers();
+            stopTimers();
+            currentIndex = Math.max(lines.length - 1, 0);
+            updateLine();
             statusPill.textContent = 'Status: Finished';
             nextPill.textContent = 'Next change: --';
-            currentIndex = Math.max(lines.length - 1, 0);
-            showLine(currentIndex);
             return;
           }
         }
-
-        showLine(currentIndex);
+        updateLine();
         scheduleNext();
-      }, Number(speedSlider.value));
+      }, ms);
     }
 
     function startReader() {
-      lines = getLines();
+      lines = parseLines();
       if (!lines.length) {
         displayLine.textContent = 'Enter a story first.';
-        lineLabel.textContent = 'No lines loaded';
+        lineInfo.textContent = 'No lines loaded';
         statusPill.textContent = 'Status: Waiting for text';
+        nextPill.textContent = 'Next change: --';
         return;
       }
-
-      clearTimers();
+      if (currentIndex >= lines.length) currentIndex = 0;
+      stopTimers();
       running = true;
       statusPill.textContent = 'Status: Running';
-      showLine(currentIndex);
+      updateLine();
       scheduleNext();
     }
 
     function pauseReader() {
       running = false;
-      clearTimers();
+      stopTimers();
       statusPill.textContent = 'Status: Paused';
       nextPill.textContent = 'Next change: --';
     }
 
     function resetReader() {
       running = false;
-      clearTimers();
-      lines = getLines();
+      stopTimers();
+      lines = parseLines();
       currentIndex = 0;
       if (lines.length) {
-        showLine(0);
-        statusPill.textContent = 'Status: Ready';
+        updateLine();
       } else {
         displayLine.textContent = 'Press Start to begin.';
-        lineLabel.textContent = 'No lines loaded';
-        statusPill.textContent = 'Status: Ready';
+        lineInfo.textContent = 'No lines loaded';
       }
+      statusPill.textContent = 'Status: Ready';
       nextPill.textContent = 'Next change: --';
     }
 
-    startBtn.addEventListener('click', () => {
-      lines = getLines();
-      if (currentIndex >= lines.length) {
-        currentIndex = 0;
-      }
-      startReader();
-    });
-
+    startBtn.addEventListener('click', startReader);
     pauseBtn.addEventListener('click', pauseReader);
     resetBtn.addEventListener('click', resetReader);
 
-    speedSlider.addEventListener('input', () => {
-      updateSpeedText();
+    speedSlider.addEventListener('input', function () {
+      refreshSpeedLabel();
       if (running) {
-        clearTimers();
+        stopTimers();
         scheduleNext();
       }
     });
 
-    fontSlider.addEventListener('input', updateFontText);
-    loopToggle.addEventListener('input', updateLoopText);
+    fontSlider.addEventListener('input', refreshFontLabel);
+    loopBox.addEventListener('change', refreshLoopLabel);
 
-    storyInput.addEventListener('input', () => {
-      lines = getLines();
-      if (!running) {
-        currentIndex = 0;
-        resetReader();
-      }
+    storyInput.addEventListener('input', function () {
+      if (!running) resetReader();
     });
 
-    document.addEventListener('keydown', event => {
+    document.addEventListener('keydown', function (event) {
       if (event.code === 'Space') {
         event.preventDefault();
         if (running) {
           pauseReader();
         } else {
-          lines = getLines();
-          if (currentIndex >= lines.length) {
-            currentIndex = 0;
-          }
           startReader();
         }
       }
 
-      if (event.code === 'ArrowRight' && !running) {
-        lines = getLines();
+      if (!running && event.code === 'ArrowRight') {
+        lines = parseLines();
         if (!lines.length) return;
         currentIndex = Math.min(currentIndex + 1, lines.length - 1);
-        showLine(currentIndex);
+        updateLine();
       }
 
-      if (event.code === 'ArrowLeft' && !running) {
-        lines = getLines();
+      if (!running && event.code === 'ArrowLeft') {
+        lines = parseLines();
         if (!lines.length) return;
         currentIndex = Math.max(currentIndex - 1, 0);
-        showLine(currentIndex);
+        updateLine();
       }
     });
 
-    updateSpeedText();
-    updateFontText();
-    updateLoopText();
+    refreshSpeedLabel();
+    refreshFontLabel();
+    refreshLoopLabel();
     resetReader();
   </script>
 </body>
